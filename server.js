@@ -90,7 +90,7 @@ app.get('/', (req, res) => {
       }
     }
 
-    function allScriptsLoaded() {
+    async function allScriptsLoaded() {
       console.log('All tracking pixels have been loaded and executed.');
       // 여기서 원하는 이벤트를 실행합니다.
       var gta = getCookie('_gta');
@@ -105,27 +105,29 @@ app.get('/', (req, res) => {
         var g_fba = getCookie('_fbp');
         
         if (g_ga && g_fba) {
-          // 기본 데이터 준비
-          var data = {
-            g_ta: gta, // 쿠키에서 생성한 사용자 ID
-            g_ga: g_ga, // _ga 쿠키 값
-            g_fba: g_fba, // _fbp 쿠키 값
-            gate_type: getUrlParameter('gate_type'),
-            site_code: getUrlParameter('site_code'),
-            source: getUrlParameter('source'),
-            medium: getUrlParameter('medium'),
-            content: getUrlParameter('content'),
-            url: window.location.href,
-            referrer: document.referrer,
-            device: getDeviceType(),
-            // ip: await getIpAddress(), // IP 주소를 비동기로 가져올 수 있습니다.
-            headers: navigator.userAgent, // 헤더 정보
-            created_at: new Date().getTime(),
-          };
-  
-          console.log("Data prepared:", data);
-          sendData(data);
-          console.log("완료");
+          getIpAddress().then(ip => {
+            // 기본 데이터 준비
+            var data = {
+              g_ta: gta, // 쿠키에서 생성한 사용자 ID
+              g_ga: g_ga, // _ga 쿠키 값
+              g_fba: g_fba, // _fbp 쿠키 값
+              gate_type: getUrlParameter('gate_type'),
+              site_code: getUrlParameter('site_code'),
+              source: getUrlParameter('source'),
+              medium: getUrlParameter('medium'),
+              content: getUrlParameter('content'),
+              url: window.location.href,
+              referrer: document.referrer,
+              device: getDeviceType(),
+              ip: ip, // IP 주소
+              headers: navigator.userAgent, // 헤더 정보
+              created_at: new Date().getTime(),
+            };
+    
+            console.log("Data prepared:", data);
+            sendData(data);
+            console.log("완료");
+          });
         } else {
           console.log("쿠키가 아직 설정되지 않음. 다시 확인합니다.");
           setTimeout(checkCookies, 100); // 100ms 후에 다시 확인
