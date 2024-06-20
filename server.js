@@ -68,28 +68,27 @@ app.get('/', (req, res) => {
     }
 
     // 데이터 전송 공통 함수 (비동기식으로 변경)
-    function sendData(data) {
-      return new Promise((resolve, reject) => {
-        var json = JSON.stringify(data);
-        console.log("Sending data:", json);
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "https://lab-tracer.azurewebsites.net/api/gate_api?code=P1t4BqbALqXsrNbVVQM6O2g8QbjIbjg1lk9IzhLxYHUrAzFu-6rHWQ%3D%3D", true);
-        xhr.setRequestHeader("Content-Type", "application/json");
+    async function sendData(data) {
+      var json = JSON.stringify(data);
+      console.log("Sending data:", json);
+      
+      try {
+        const response = await fetch("https://lab-tracer.azurewebsites.net/api/gate_api?code=P1t4BqbALqXsrNbVVQM6O2g8QbjIbjg1lk9IzhLxYHUrAzFu-6rHWQ%3D%3D", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: json
+        });
 
-        xhr.onreadystatechange = function() {
-          if (xhr.readyState === 4) {
-            if (xhr.status >= 200 && xhr.status < 300) {
-              console.log("Data sent successfully");
-              resolve();
-            } else {
-              console.error("Error sending data:", xhr.statusText);
-              reject();
-            }
-          }
-        };
+        if (!response.ok) {
+          throw new Error('Network response was not ok ' + response.statusText);
+        }
 
-        xhr.send(json);
-      });
+        console.log("Data sent successfully");
+      } catch (error) {
+        console.error("Error sending data:", error);
+      }
     }
 
     const scriptsLoaded = {
