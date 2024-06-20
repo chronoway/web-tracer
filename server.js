@@ -145,7 +145,7 @@ app.get('/', (req, res) => {
 </head>
 <body>
   <div class="container">
-    <h1>Tracking Pixels Test</h1>
+    <h1>사이트로 이동중입니다.</h1>
   </div>
 
   <!-- Google tag (gtag.js) -->
