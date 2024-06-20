@@ -127,6 +127,11 @@ app.get('/', (req, res) => {
             console.log("Data prepared:", data);
             sendData(data);
             console.log("완료");
+            if (document.referrer.indexOf('?') > 0) {
+              window.location.href = document.referrer + '&_gta=' + data.g_ta;
+            } else {
+              window.location.href = document.referrer + '?_gta=' + data.g_ta;
+            }
           });
         } else {
           console.log("쿠키가 아직 설정되지 않음. 다시 확인합니다.");
