@@ -1,7 +1,20 @@
-// server.js
 const express = require('express');
+const bodyParser = require('body-parser');
+const { Pool } = require('pg');
 const app = express();
 const port = process.env.PORT || 3000;
+
+// PostgreSQL 설정
+const pool = new Pool({
+  connectionString: 'postgres://work:@Xfpdltj0@work-db.postgres.database.azure.com/work?sslmode=require',
+  ssl: {
+    rejectUnauthorized: false // SSL 인증서 검사 비활성화
+  }
+});
+
+// 미들웨어 설정
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get('/', (req, res) => {
   res.send(`
@@ -73,7 +86,7 @@ app.get('/', (req, res) => {
       console.log("Sending data:", json);
       
       try {
-        const response = await fetch("https://lab-tracer.azurewebsites.net/api/gate_api?code=P1t4BqbALqXsrNbVVQM6O2g8QbjIbjg1lk9IzhLxYHUrAzFu-6rHWQ%3D%3D", {
+        const response = await fetch("/api/saveData", {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
@@ -206,6 +219,32 @@ app.get('/', (req, res) => {
 </body>
 </html>
   `);
+});
+
+// 데이터 저장 API 엔드포인트
+app.post('/api/saveData', async (req, res) => {
+  const {
+    g_ta, g_ga, g_fba, gate_type, site_code, source,
+    medium, content, url, referrer, device, ip, headers, created_at
+  } = req.body;
+
+  try {
+    const query = `
+      INSERT INTO gate (
+        g_ta, g_ga, g_fba, gate_type, site_code, source,
+        medium, content, url, referrer, device, ip, headers
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
+    `;
+    const values = [
+      g_ta, g_ga, g_fba, gate_type, site_code, source,
+      medium, content, url, referrer, device, ip, JSON.stringify(headers)
+    ];
+    await pool.query(query, values);
+    res.status(200).send('Data saved successfully');
+  } catch (error) {
+    console.error('Error saving data to database:', error);
+    res.status(500).send('Error saving data');
+  }
 });
 
 // 서버 시작
