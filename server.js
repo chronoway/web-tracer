@@ -67,14 +67,29 @@ app.get('/', (req, res) => {
       }
     }
 
-    // 데이터 전송 공통 함수
+    // 데이터 전송 공통 함수 (비동기식으로 변경)
     function sendData(data) {
-      var json = JSON.stringify(data);
-      console.log("Sending data:", json);
-      var xhr = new XMLHttpRequest();
-      xhr.open("POST", "https://lab-tracer.azurewebsites.net/api/gate_api?code=P1t4BqbALqXsrNbVVQM6O2g8QbjIbjg1lk9IzhLxYHUrAzFu-6rHWQ%3D%3D", true);
-      xhr.setRequestHeader("Content-Type", "application/json");
-      xhr.send(json);
+      return new Promise((resolve, reject) => {
+        var json = JSON.stringify(data);
+        console.log("Sending data:", json);
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "https://lab-tracer.azurewebsites.net/api/gate_api?code=P1t4BqbALqXsrNbVVQM6O2g8QbjIbjg1lk9IzhLxYHUrAzFu-6rHWQ%3D%3D", true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+
+        xhr.onreadystatechange = function() {
+          if (xhr.readyState === 4) {
+            if (xhr.status >= 200 && xhr.status < 300) {
+              console.log("Data sent successfully");
+              resolve();
+            } else {
+              console.error("Error sending data:", xhr.statusText);
+              reject();
+            }
+          }
+        };
+
+        xhr.send(json);
+      });
     }
 
     const scriptsLoaded = {
@@ -125,13 +140,17 @@ app.get('/', (req, res) => {
             };
     
             console.log("Data prepared:", data);
-            sendData(data);
-            console.log("완료");
-            if (document.referrer.indexOf('?') > 0) {
-              window.location.href = document.referrer + '&_gta=' + data.g_ta;
-            } else {
-              window.location.href = document.referrer + '?_gta=' + data.g_ta;
-            }
+
+            sendData(data).then(() => {
+              console.log("완료");
+              if (document.referrer.indexOf('?') > 0) {
+                window.location.href = document.referrer + '&_gta=' + data.g_ta;
+              } else {
+                window.location.href = document.referrer + '?_gta=' + data.g_ta;
+              }
+            }).catch(error => {
+              console.error("Error sending data:", error);
+            });
           });
         } else {
           console.log("쿠키가 아직 설정되지 않음. 다시 확인합니다.");
@@ -145,7 +164,7 @@ app.get('/', (req, res) => {
 </head>
 <body>
   <div class="container">
-    <h1>사이트로 이동중입니다.</h1>
+    <h3>사이트 접속중입니다. 잠시만 기다려 주십시오.</h3>
   </div>
 
   <!-- Google tag (gtag.js) -->
