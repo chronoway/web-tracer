@@ -200,15 +200,17 @@ app.get('/', (req, res) => {
     <h3>사이트 접속중입니다. 잠시만 기다려 주십시오.</h3>
   </div>
 
+
   <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-0F3RDG9QHW" onload="scriptLoaded('google')"></script>
-  <script> 
-    window.dataLayer = window.dataLayer || []; 
-    function gtag(){dataLayer.push(arguments);} 
-    gtag('js', new Date()); 
-    gtag('config', 'G-0F3RDG9QHW', {'cookie_flags': 'SameSite=None;Secure'}); 
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-MZVYWBWQEM" onload="scriptLoaded('google')"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-MZVYWBWQEM');
   </script>
-  <!-- End Google tag (gtag.js) -->
+
 
   <!-- Meta Pixel Code -->
   <script>
