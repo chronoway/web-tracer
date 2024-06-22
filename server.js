@@ -179,7 +179,7 @@ app.get('/', (req, res) => {
 
             sendData(data).then(() => {
               console.log("완료");
-              if (getUrlParameter('site_code') === 'thepeak-dosan' || (getUrlParameter('site_code') === 'geomdan-duklass') {
+              if (getUrlParameter('site_code') === 'thepeak-dosan' || getUrlParameter('site_code') === 'geomdan-duklass') {
                 if (document.referrer.indexOf('?') > 0) {
                   window.location.href = document.referrer + '&_gta=' + data.g_ta;
                 } else {
