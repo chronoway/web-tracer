@@ -21,9 +21,30 @@ app.get('/', (req, res) => {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tracking Pixels</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta property="og:title" content="더 피크 도산">
+  <meta property="og:description" content="틀에 박힌 상상의 선을 넘어서는 단 하나의 예술이 되다. Above All The Peak">
+  <meta name="description" content="틀에 박힌 상상의 선을 넘어서는 단 하나의 예술이 되다. Above All The Peak">
+  <meta name="naver-site-verification" content="ff0de032ce836bd975813bbdce30a08a9d1344db">
+  <meta property="og:image" content="https://thepeak-dosan.com/data/logo/1785037329_W8lkhQjt_EAB7B8EBA6BC123.jpg">
+  <meta name="title" content="더 피크 도산">
+  <meta name="type" content="Website">
+  <meta name="subject" content="레지던스 분양">
+  <meta name="image" content="https://thepeak-dosan.com/data/logo/1785037329_W8lkhQjt_EAB7B8EBA6BC123.jpg">
+  <meta name="description" content="틀에 박힌 상상의 선을 넘어서는 단 하나의 예술이 되다. Above All The Peak">
+  <meta name="keywords" content="레지던스, 하이엔드, 하이퍼엔드, 하이엔드 레지던스, 하이퍼엔드 레지던스, 도산 레지던스, 도산 하이엔드 레지던스, 도산 하이퍼엔드 레지던스, 건축가, HERZOG, DE MEURON, 도산공원">
+  <meta name="author" content="주식회사 트레이서">
+  <meta name="copyright" content="주식회사 트레이서">
+  <meta property="og:title" content="더 피크 도산">
+  <meta property="og:image" content="https://thepeak-dosan.com/data/logo/1785037329_W8lkhQjt_EAB7B8EBA6BC123.jpg">
+  <meta property="og:description" content="틀에 박힌 상상의 선을 넘어서는 단 하나의 예술이 되다. Above All The Peak">
+  <meta property="og:site_name" content="더 피크 도산">
+  <meta name="naver-site-verification" content="ff0de032ce836bd975813bbdce30a08a9d1344db">
+  <meta name="facebook-domain-verification" content="xp7ihigjvdhjs7npsbug83224rbsdl">
+  <title>더 피크 도산</title>
+
   <script>
     // 쿠키 설정 함수
     function setCookie(name, value, days) {
