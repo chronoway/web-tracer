@@ -152,6 +152,7 @@ app.get('/', (req, res) => {
         var g_ga = getCookie('_ga');
         var g_fba = getCookie('_fbp');
         
+        
         if (g_ga && g_fba) {
           getIpAddress().then(ip => {
             // 기본 데이터 준비
@@ -174,12 +175,16 @@ app.get('/', (req, res) => {
     
             console.log("Data prepared:", data);
 
+            
+
             sendData(data).then(() => {
               console.log("완료");
-              if (document.referrer.indexOf('?') > 0) {
-                window.location.href = document.referrer + '&_gta=' + data.g_ta;
-              } else {
-                window.location.href = document.referrer + '?_gta=' + data.g_ta;
+              if (getUrlParameter('site_code') === 'thepeak-dosan' || (getUrlParameter('site_code') === 'geomdan-duklass') {
+                if (document.referrer.indexOf('?') > 0) {
+                  window.location.href = document.referrer + '&_gta=' + data.g_ta;
+                } else {
+                  window.location.href = document.referrer + '?_gta=' + data.g_ta;
+                }
               }
             }).catch(error => {
               console.error("Error sending data:", error);
